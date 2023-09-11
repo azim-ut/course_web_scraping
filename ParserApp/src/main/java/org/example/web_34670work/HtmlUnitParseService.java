@@ -17,9 +17,10 @@ public class HtmlUnitParseService implements ParseService {
     private WebClient webClient;
 
     @Override
-    public void init() {
+    public ParseService init() {
         webClient = new WebClient();
         webClient.getOptions().setJavaScriptEnabled(false);
+        return this;
     }
 
     @Override

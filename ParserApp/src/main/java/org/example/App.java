@@ -1,6 +1,7 @@
 package org.example;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.parse.ParseFactory;
 import org.example.parse.ParseService;
 import org.example.parse.bean.WebPage;
 import org.example.web_34670work.HtmlUnitParseService;
@@ -26,12 +27,8 @@ public class App
     }
 
     public void runApp(){
-        ParseService parseService = new HtmlUnitParseService();
-        parseService.init();
-
         try {
-            URL url = new URL("http://34670.work");
-            WebPage webPage = parseService.parse(url);
+            WebPage webPage = ParseFactory.parse("http://34670.work");
             log.info("Parsed: {}", webPage);
         } catch (MalformedURLException e) {
             log.error(e.getMessage(), e);
