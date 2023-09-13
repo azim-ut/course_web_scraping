@@ -2,12 +2,9 @@ package org.example;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.parse.ParseFactory;
-import org.example.parse.ParseService;
 import org.example.parse.bean.WebPage;
-import org.example.web_34670work.HtmlUnitParseService;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Hello world!
