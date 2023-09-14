@@ -1,5 +1,4 @@
-package org.example.parse.bean;
-
+package org.example.web_34670work.bean;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +11,8 @@ import lombok.experimental.Accessors;
 @ToString
 @NoArgsConstructor
 @Accessors(chain = true)
-public class WebPage {
+public class DataToParseItem {
+
     private String title;
-
-
+    private String details;
 }
