@@ -5,6 +5,8 @@ import org.example.parse.ParseFactory;
 import org.example.parse.bean.WebPage;
 
 import java.net.MalformedURLException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Hello world!
@@ -23,12 +25,27 @@ public class App
         app.runApp();
     }
 
-    public void runApp(){
-        try {
-            WebPage webPage = ParseFactory.parse("http://34670.work");
-            log.info("Parsed: {}", webPage);
-        } catch (MalformedURLException e) {
-            log.error(e.getMessage(), e);
-        }
+    private void runApp() {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    parse("http://34670.work");
+                } catch (MalformedURLException e) {
+                    log.error(e.getMessage(), e);
+                    cancel();
+                }
+            }
+        };
+
+        Timer time = new Timer("ParseTimer");
+
+        time.scheduleAtFixedRate(task, 0, 5000L);
+    }
+
+
+    public void parse(String path) throws MalformedURLException{
+        WebPage webPage = ParseFactory.parse(path);
+        log.info("Parsed: {}", webPage);
     }
 }

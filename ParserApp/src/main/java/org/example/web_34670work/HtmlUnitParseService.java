@@ -14,7 +14,17 @@ import java.util.List;
 @Slf4j
 public class HtmlUnitParseService implements ParseService {
 
+    private static final HtmlUnitParseService instance = new HtmlUnitParseService();
+
     private WebClient webClient;
+
+    public HtmlUnitParseService(){
+        this.init();
+    }
+
+    public static ParseService getInstance(){
+        return instance;
+    }
 
     @Override
     public ParseService init() {
