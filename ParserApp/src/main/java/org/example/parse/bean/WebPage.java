@@ -13,7 +13,10 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class WebPage {
+    private String path = "";
     private String title;
 
-
+    public boolean hasPath(){
+        return !path.isEmpty();
+    }
 }

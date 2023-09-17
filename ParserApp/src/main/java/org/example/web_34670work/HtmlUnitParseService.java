@@ -36,23 +36,15 @@ public class HtmlUnitParseService implements ParseService {
     }
 
     @Override
-    public WebPage parse(URL url) {
+    public WebPage parse(URL url) throws IOException{
         Web34670WorkPage out = new Web34670WorkPage();
-
-        try {
-            HtmlPage page = webClient.getPage(url);
-            List<HtmlElement> titlesList = page.getByXPath("//title");
-            titlesList.forEach(htmlElement -> {
-                out.setTitle(htmlElement.getTextContent());
-            });
-            parseYouTubeLink(page, out);
-            parseDataToParse(page, out);
-
-
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-        }
-
+        HtmlPage page = webClient.getPage(url);
+        List<HtmlElement> titlesList = page.getByXPath("//title");
+        titlesList.forEach(htmlElement -> {
+            out.setTitle(htmlElement.getTextContent());
+        });
+        parseYouTubeLink(page, out);
+        parseDataToParse(page, out);
         return out;
     }
 

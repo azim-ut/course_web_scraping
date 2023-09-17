@@ -1,14 +1,17 @@
 package org.example.parse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.parse.bean.WebPage;
 import org.example.web_34670work.HtmlUnitParseService;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
+@Slf4j
 public class ParseFactory {
 
     private static final Map<String, ParseService> parseServices = Map.of(
@@ -34,7 +37,15 @@ public class ParseFactory {
     public static WebPage parse(String path) throws MalformedURLException {
         var url = new URL(path);
         AtomicReference<WebPage> out = new AtomicReference<>(new WebPage());
-        fetchPattern(path).ifPresent(row -> out.set(parseServices.get(row).parse(url)));
+        fetchPattern(path).ifPresent(row -> {
+            try {
+                var res = parseServices.get(row).parse(url);
+                    res.setPath(path);
+                out.set(res);
+            } catch (IOException e) {
+                log.error(e.getMessage(), e);
+            }
+        });
         return out.get();
     }
 

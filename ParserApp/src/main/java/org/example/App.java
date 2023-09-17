@@ -1,8 +1,11 @@
 package org.example;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.exception.DataStorageException;
 import org.example.parse.ParseFactory;
 import org.example.parse.bean.WebPage;
+import org.example.repository.ParsedDataRepository;
+import org.example.repository.jsonfiles.GsonFileRepository;
 
 import java.net.MalformedURLException;
 import java.util.Timer;
@@ -31,7 +34,7 @@ public class App
             public void run() {
                 try {
                     parse("http://34670.work");
-                } catch (MalformedURLException e) {
+                } catch (MalformedURLException | DataStorageException e) {
                     log.error(e.getMessage(), e);
                     cancel();
                 }
@@ -44,8 +47,12 @@ public class App
     }
 
 
-    public void parse(String path) throws MalformedURLException{
+    public void parse(String path) throws MalformedURLException, DataStorageException {
+        ParsedDataRepository repository = GsonFileRepository.getInstance();
         WebPage webPage = ParseFactory.parse(path);
         log.info("Parsed: {}", webPage);
+        if(webPage.hasPath()){
+            repository.save(webPage);
+        }
     }
 }
